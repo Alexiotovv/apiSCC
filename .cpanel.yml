@@ -1,0 +1,7 @@
+---
+  deployment:
+    tasks:
+      - export DEPLOYPATH=/home/gorel/public_html/apiscc.regionloreto.gob.pe/
+      - /bin/rsync -av public/ $DEPLOYPATH
+      - export DEPLOYPATH=/home/gorel/web_apiscc/
+      - /bin/rsync -av ./ $DEPLOYPATH
