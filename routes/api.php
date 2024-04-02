@@ -9,6 +9,7 @@ use App\Http\Controllers\ExpedientesController;
 use App\Http\Controllers\DireccionesController;
 use App\Http\Controllers\TipoPersonasController;
 use App\Http\Controllers\RegionesController;
+use App\Http\Controllers\GenerateTokensController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -26,6 +27,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
+
+Route::middleware('jwt.auth')->get('/refresh/tokens', [GenerateTokensController::class, 'refreshTokens']);
 
 //users
 Route::middleware('jwt.auth')->post('/profile', function () { return auth()->user(); });
