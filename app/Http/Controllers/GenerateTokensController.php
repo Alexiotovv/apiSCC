@@ -32,20 +32,11 @@ class GenerateTokensController extends Controller
             $refreshedToken = JWTAuth::refresh($currentToken);
     
             // Devolver el nuevo token y el usuario
-            return [$refreshedToken, $user];
+            return ['token'=>$refreshedToken, 'data'=>$user];
         } catch (JWTException $e) {
             throw new JWTException('Error al refrescar el token: ' . $e->getMessage());
         }
+
     }
 
-    // public static function getRol(): string
-    // {
-    //     try {
-    //         $token = JWTAuth::parseToken();
-    //         $claims = $token->getPayload()->get('rol');
-    //         return $claims;
-    //     } catch (\Exception $e){
-    //         throw new Exception('Imposible obtener rol');
-    //     }
-    // }
 }

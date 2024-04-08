@@ -14,7 +14,7 @@ class DeudoresController extends Controller
     public function index()
     {
         $obj = deudores::all();
-        return response()->json(['status'=>'required','data'=>$obj],200);
+        return response()->json(['status'=>'success','data'=>$obj],200);
     }
 
     /**
