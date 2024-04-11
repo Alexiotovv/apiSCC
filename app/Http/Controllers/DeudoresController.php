@@ -107,6 +107,7 @@ class DeudoresController extends Controller
                 'nombre_rep'=>'required_if:tipopersona,2|',
                 'apellidos_rep'=>'required_if:tipopersona,2|',
                 'dni_rep'=>'required_if:tipopersona,2|',
+                'domicilio'=>'required|string|max:250',
             ]);
 
             if ($validator->fails()) {
@@ -116,7 +117,7 @@ class DeudoresController extends Controller
             $obj->dni='';
             $obj->nombre='';
             $obj->apellidos='';
-            $obj->domicilio='';
+            $obj->domicilio=request('domicilio');
             $obj->ruc=request('ruc');
             $obj->razon=request('razon');
             $obj->nombre_rep=request('nombre_rep');
