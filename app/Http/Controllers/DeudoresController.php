@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\deudores;
 use Illuminate\Http\Request;
 use Validator;
+use DB;
 
 class DeudoresController extends Controller
 {
@@ -13,11 +14,31 @@ class DeudoresController extends Controller
      */
     public function index()
     {
-        $deudores = deudores::all();
+        $deudores = DB::table('deudores')
+        ->leftjoin('tipo_personas','tipo_personas.id','=','deudores.id_tipopersonas')
+        ->leftjoin('distritos','distritos.id','=','deudores.id_distritos')
+        ->leftjoin('provincias','provincias.id','=','distritos.id_provincias')
+        ->select(
+            'deudores.id as id_deudor',
+            'tipo_personas.nombre as tipo_persona',
+            'provincias.nombre_provincia as provincia',
+            'distritos.nombre_distrito as distrito',
+            'deudores.dni',
+            'deudores.nombre',
+            'deudores.apellidos',
+            'deudores.ruc',
+            'deudores.razon',
+            'deudores.nombre_rep',
+            'deudores.apellidos_rep',
+            'deudores.dni_rep',
+            'deudores.domicilio',
+        )
+        ->get();
         $total_items=$deudores->count();
+        // return response()->json($deudores, 200);
         return response()->json([
             'status'=>'success',
-            'data'=>[$deudores,50],
+            'data'=>$deudores,
             'total_items'=>$total_items],200);
     }
 
