@@ -32,6 +32,7 @@ class DeudoresController extends Controller
             'deudores.apellidos_rep',
             'deudores.dni_rep',
             'deudores.domicilio',
+            'deudores.created_at as fecha_registro',
         )
         ->get();
         $total_items=$deudores->count();
