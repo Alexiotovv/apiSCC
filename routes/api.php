@@ -54,6 +54,7 @@ Route::middleware('jwt.auth')->get('/deudor/listar/', [DeudoresController::class
 //TipoPersonas
 Route::get('/tipo/personas/', [TipoPersonasController::class,'index']);
 
-//Provincia,Distritos
+//Provincia,Distritos, Regiones
 Route::get('/distritos/', [RegionesController::class,'index_distritos']);
 Route::get('/provincias/', [RegionesController::class,'index_provincias']);
+Route::get('/regiones/', [RegionesController::class,'index_regiones']);

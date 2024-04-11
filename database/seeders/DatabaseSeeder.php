@@ -20,8 +20,8 @@ class DatabaseSeeder extends Seeder
             'status'=>1,
         ]);
         DB::table('tipo_personas')->insert([
-            ['codigo' => '01','nombre' => 'NATURAL',
-            'codigo' => '02','nombre'=>'JURÍDICO']
+            [['codigo' => '01','nombre' => 'NATURAL'],
+            ['codigo' => '02','nombre'=>'JURÍDICO']]
         ]);
 
         DB::table('regiones')->insert([
