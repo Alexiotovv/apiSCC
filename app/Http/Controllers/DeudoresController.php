@@ -12,7 +12,8 @@ class DeudoresController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+
+    public function index(int $itemsPerPage = 1, int $page =1)
     {
         $deudores = DB::table('deudores')
         ->leftjoin('tipo_personas','tipo_personas.id','=','deudores.id_tipopersonas')
@@ -34,13 +35,13 @@ class DeudoresController extends Controller
             'deudores.domicilio',
             'deudores.created_at as fecha_registro',
         )
-        ->get();
-        $total_items=$deudores->count();
+        ->paginate($itemsPerPage, ['*'], 'page', $page);
+        
         // return response()->json($deudores, 200);
         return response()->json([
             'status'=>'success',
-            'data'=>$deudores,
-            'total_items'=>$total_items],200);
+            'data'=>$deudores->items(),
+            'total_items'=>$deudores->total()],200);
     }
 
     /**
@@ -57,24 +58,6 @@ class DeudoresController extends Controller
     public function store(Request $request)
     {
 
-
-
-        $validator=Validator::make($request->all(),[
-            'tipopersona' => 'required|integer|',
-            'distrito'=> 'required|integer',
-            'ruc'=>'required|string|size:11',
-            'dni'=>'required_if:tipopersona,1|string|size:8|',
-            'nombre'=>'required_if:tipopersona,1||string|max:250',
-            'apellidos'=>'required_if:tipopersona,1|string|max:250',
-            'domicilio'=>'required|string|max:250',
-            'nombre_rep'=>'required_if:tipopersona,2|',
-            'apellidos_rep'=>'required_if:tipopersona,2|',
-            'dni_rep'=>'required_if:tipopersona,2|',
-            'razon'=>'required_if:tipopersona,2|',
-        ]);
-        
-
-        
         $obj=new deudores();
         $obj->id_tipopersonas=request('tipopersona');
         $obj->id_distritos=request('distrito');
@@ -86,7 +69,7 @@ class DeudoresController extends Controller
                 'apellidos'=>'required_if:tipopersona,1|string|max:250',
                 'domicilio'=>'required|string|max:250',
             ]);
-            
+
             if ($validator->fails()) {
                 return response()->json(['status'=>'required','data'=>$validator->errors()],422);
             }
@@ -101,7 +84,7 @@ class DeudoresController extends Controller
             $obj->dni_rep='';
 
         }else{
-            $validator=Validator::make($request->all(),[            
+            $validator=Validator::make($request->all(),[
                 'ruc'=>'required|string|size:11',
                 'razon'=>'required_if:tipopersona,2|',
                 'nombre_rep'=>'required_if:tipopersona,2|',
@@ -164,11 +147,11 @@ class DeudoresController extends Controller
             'dni_rep'=>'required_if:tipopersona,2|',
             'razon'=>'required_if:tipopersona,2|',
         ]);
-        
+
         if ($validator->fails()) {
             return response()->json(['status'=>'required','data'=>$validator->errors()],422);
         }
-        
+
         $obj=deudores::findOrFail($id);
 
         $obj->id_tipopersonas=request('tipopersona');

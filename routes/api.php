@@ -49,7 +49,7 @@ Route::middleware('jwt.auth')->get('/direcciones/listar/', [DireccionesControlle
 //deudor 
 Route::middleware('jwt.auth')->post('/deudor/register/', [DeudoresController::class,'store']);
 Route::middleware('jwt.auth')->post('/deudor/update/{id}', [DeudoresController::class,'update']);
-Route::middleware('jwt.auth')->get('/deudor/listar/', [DeudoresController::class,'index']);
+Route::middleware('jwt.auth')->get('/deudor/listar/{perpage}/{page}', [DeudoresController::class,'index']);
 
 //TipoPersonas
 Route::get('/tipo/personas/', [TipoPersonasController::class,'index']);
