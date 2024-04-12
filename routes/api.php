@@ -50,6 +50,9 @@ Route::middleware('jwt.auth')->get('/direcciones/listar/', [DireccionesControlle
 Route::middleware('jwt.auth')->post('/deudor/register/', [DeudoresController::class,'store']);
 Route::middleware('jwt.auth')->post('/deudor/update/{id}', [DeudoresController::class,'update']);
 Route::middleware('jwt.auth')->get('/deudor/listar/{perpage}/{page}', [DeudoresController::class,'index']);
+//Búsqueda de Deudores
+Route::middleware('jwt.auth')->get('/deudor/busqueda/{tipopersona}/{doc}', [DeudoresController::class,'show']);
+
 
 //TipoPersonas
 Route::get('/tipo/personas/', [TipoPersonasController::class,'index']);

@@ -116,10 +116,26 @@ class DeudoresController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(deudores $deudores)
+    public function show(Request $request, $tipopersona,$doc)
     {
-        //
+
+        if ($tipopersona==1) {
+            $deudor=deudores::where('deudores.dni',$doc)
+            ->select('deudores.id','deudores.nombre','deudores.apellidos','deudores.domicilio')
+            ->first();
+        }else{
+            $deudor=deudores::where('deudores.ruc',$doc)
+            ->select('deudores.id','deudores.razon','deudores.nombre_rep','deudores.apellidos_rep','deudores.domicilio')
+            ->first();
+        }
+
+        return response()->json(['status'=>'success','data'=>$deudor],200);
+            
     }
+
+
+
+
 
     /**
      * Show the form for editing the specified resource.
