@@ -40,7 +40,8 @@ Route::middleware('jwt.auth')->get('/users/listar/', [UserController::class,'ind
 
 //Expedientes
 Route::middleware('jwt.auth')->post('/expedientes/register/', [ExpedientesController::class,'store']);
-
+Route::middleware('jwt.auth')->get('/expedientes/listar/{perpage}/{page}', [ExpedientesController::class,'index']);
+Route::middleware('jwt.auth')->get('/expedientes/busqueda/{numero}', [ExpedientesController::class,'show']);
 //Direcciones
 Route::middleware('jwt.auth')->post('/direcciones/register/', [DireccionesController::class,'store']);
 Route::middleware('jwt.auth')->post('/direcciones/update/{id}', [DireccionesController::class,'update']);

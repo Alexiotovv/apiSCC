@@ -5,15 +5,39 @@ namespace App\Http\Controllers;
 use App\Models\expedientes;
 use Illuminate\Http\Request;
 use Validator;
-
+use DB;
 class ExpedientesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(int $itemsPerPage = 1, int $page =1)
     {
-        //
+        $expedientes=DB::table('expedientes')
+        ->leftjoin('deudores','deudores.id','=','expedientes.id_deudores')
+        ->leftjoin('direcciones','direcciones.id','=','expedientes.id_direcciones')
+        ->select(
+            'deudores.nombre',
+            'deudores.apellidos',
+            'direcciones.nombre as dirección',
+            'expedientes.concepto',
+            'expedientes.monto',
+            'expedientes.expediente',
+            'expedientes.tipo',
+            'expedientes.numero',
+            'expedientes.fecha',
+            'expedientes.uit',
+            'expedientes.importe',
+            'expedientes.resolucion_admin',
+            'expedientes.fecha_resolucion_admin',
+            'expedientes.noaperturado',
+            'expedientes.created_at')
+        ->paginate($itemsPerPage, ['*'], 'page', $page);
+        return response()->json([
+            'status'=>'success',
+            'data'=>$expedientes->items(),
+            'total_items'=>$expedientes->total()],200);
+
     }
 
     /**
@@ -72,9 +96,29 @@ class ExpedientesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(coactivos $coactivos)
+    public function show($numero)
     {
-        //
+        $expediente=DB::table('expedientes')
+        ->leftjoin('deudores','deudores.id','=','expedientes.id_deudores')
+        ->leftjoin('direcciones','direcciones.id','=','expedientes.id_direcciones')
+        ->select(
+            'deudores.nombre',
+            'deudores.apellidos',
+            'direcciones.nombre as dirección',
+            'expedientes.concepto',
+            'expedientes.monto',
+            'expedientes.expediente',
+            'expedientes.tipo',
+            'expedientes.numero',
+            'expedientes.fecha',
+            'expedientes.uit',
+            'expedientes.importe',
+            'expedientes.resolucion_admin',
+            'expedientes.fecha_resolucion_admin',
+            'expedientes.noaperturado')
+        ->where('expedientes.numero','=',$numero)
+        ->get();
+        return response()->json(['status'=>'success','data'=>$expediente], 200);
     }
 
     /**

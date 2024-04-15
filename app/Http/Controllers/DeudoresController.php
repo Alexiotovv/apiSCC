@@ -119,6 +119,8 @@ class DeudoresController extends Controller
     public function show(Request $request, $tipopersona,$doc)
     {
 
+        
+
         if ($tipopersona==1) {
             $deudor=deudores::where('deudores.dni',$doc)
             ->select('deudores.id','deudores.nombre as nombre','deudores.apellidos as apellidos','deudores.domicilio')
