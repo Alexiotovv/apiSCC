@@ -22,6 +22,7 @@ return new class extends Migration
             $table->tinyInteger('estado');//1 PENDIENTE, 2 COMPLETO, 3 PARCIALMENTE PAGADO
             $table->date('fecha');
             $table->time('hora');
+            $table->string('archivo', 255)->default('');
             $table->timestamps();
         });
     }

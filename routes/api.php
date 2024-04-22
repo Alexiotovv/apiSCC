@@ -11,6 +11,7 @@ use App\Http\Controllers\TipoPersonasController;
 use App\Http\Controllers\RegionesController;
 use App\Http\Controllers\GenerateTokensController;
 use App\Http\Controllers\CronogramasController;
+use App\Http\Controllers\PagosController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -48,6 +49,10 @@ Route::middleware('jwt.auth')->post('/expedientes/update/{id}', [ExpedientesCont
 //Cronogramas
 Route::middleware('jwt.auth')->post('/cronogramas/register/', [CronogramasController::class,'store']);
 Route::middleware('jwt.auth')->post('/cronogramas/update/{id}', [CronogramasController::class,'update']);
+
+//Pagos
+Route::middleware('jwt.auth')->post('/pagos/register/', [PagosController::class,'store']);
+Route::middleware('jwt.auth')->post('/pagos/update/{id}', [PagosController::class,'update']);
 
 //Oficinas
 Route::middleware('jwt.auth')->post('/direcciones/register/', [DireccionesController::class,'store']);
