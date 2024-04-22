@@ -19,9 +19,13 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('123456'),
             'status'=>1,
         ]);
+        DB::table('direcciones')->insert([
+            'nombre'=>'OFICINA DE PRUEBA',
+        ]);
+
         DB::table('tipo_personas')->insert([
-            [['codigo' => '01','nombre' => 'NATURAL'],
-            ['codigo' => '02','nombre'=>'JURÍDICO']]
+            ['codigo' => '01','nombre' => 'NATURAL'],
+            ['codigo' => '02','nombre'=>'JURÍDICO']
         ]);
 
         DB::table('regiones')->insert([

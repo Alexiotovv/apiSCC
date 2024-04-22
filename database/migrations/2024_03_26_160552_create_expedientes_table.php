@@ -20,15 +20,13 @@ return new class extends Migration
             $table->string('concepto', 250)->default('');
             $table->decimal('monto', 8, 2)->default(0.00);
             $table->string('expediente', 250)->default('');
-            $table->string('tipo', 250)->default('');
-            $table->string('numero', 100)->default('');
             $table->date('fecha');
             $table->decimal('uit', 8, 2)->default(0.00);
             $table->decimal('importe', 8, 2)->default(0.00);
             $table->string('resolucion_admin', 250)->default('');
             $table->date('fecha_resolucion_admin');
             $table->boolean('noaperturado')->default(false);
-
+            $table->string('archivo', 250)->default('');
             $table->timestamps();
         });
     }

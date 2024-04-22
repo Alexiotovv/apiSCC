@@ -23,14 +23,13 @@ class ExpedientesController extends Controller
             'expedientes.concepto',
             'expedientes.monto',
             'expedientes.expediente',
-            'expedientes.tipo',
-            'expedientes.numero',
             'expedientes.fecha',
             'expedientes.uit',
             'expedientes.importe',
             'expedientes.resolucion_admin',
             'expedientes.fecha_resolucion_admin',
             'expedientes.noaperturado',
+            'expedientes.archivo',
             'expedientes.created_at')
         ->paginate($itemsPerPage, ['*'], 'page', $page);
         return response()->json([
@@ -60,8 +59,6 @@ class ExpedientesController extends Controller
             'concepto'=>'required|string|max:250',
             'monto'=>'required|numeric',
             'expediente'=>'required|string|max:250',
-            'tipo'=>'required|string|max:100',
-            'numero'=>'required|string|max:250',
             'fecha'=>'required|date',
             'uit'=>'required|numeric',
             'importe'=>'required|numeric',
@@ -80,14 +77,23 @@ class ExpedientesController extends Controller
         $obj->concepto=request('concepto');
         $obj->monto=request('monto');
         $obj->expediente=request('expediente');
-        $obj->tipo=request('tipo');
-        $obj->numero=request('numero');
         $obj->fecha=request('fecha');
         $obj->uit=request('uit');
         $obj->importe=request('importe');
         $obj->resolucion_admin=request('resolucion_admin');
         $obj->fecha_resolucion_admin=request('fecha_resolucion_admin');
         $obj->noaperturado=request('noaperturado');
+
+
+        if ($request->hasFile('archivo')){
+            $file = request('archivo')->getClientOriginalName();//archivo recibido
+            $filename = pathinfo($file, PATHINFO_FILENAME);//nombre archivo sin extension
+            $extension = request('archivo')->getClientOriginalExtension();//extensión
+            $archivo= $filename.'_'.time().'.'.$extension;//
+            request('archivo')->storeAs('expedientes/',$archivo,'public');//refiere carpeta publica es el nombre de disco
+            $obj->archivo = $archivo;
+        }
+
         $obj->save();
 
         return response()->json(['status'=>'success','data'=>'Registro Creado'],200);
@@ -108,15 +114,15 @@ class ExpedientesController extends Controller
             'expedientes.concepto',
             'expedientes.monto',
             'expedientes.expediente',
-            'expedientes.tipo',
-            'expedientes.numero',
             'expedientes.fecha',
             'expedientes.uit',
             'expedientes.importe',
             'expedientes.resolucion_admin',
             'expedientes.fecha_resolucion_admin',
-            'expedientes.noaperturado')
-        ->where('expedientes.numero','=',$numero)
+            'expedientes.noaperturado',
+            'expedientes.archivo'
+            )
+        ->whereRaw('LEFT(expedientes.expediente, 8) = ?', [$numero])
         ->get();
         return response()->json(['status'=>'success','data'=>$expediente], 200);
     }
@@ -132,9 +138,49 @@ class ExpedientesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, coactivos $coactivos)
+    public function update(Request $request,$numero)
     {
-        //
+        $validator=Validator::make($request->all(),[
+            'direccion'=> 'required|integer',
+            'concepto'=>'required|string|max:250',
+            'monto'=>'required|numeric',
+            'expediente'=>'required|string|max:250',
+            'fecha'=>'required|date',
+            'uit'=>'required|numeric',
+            'importe'=>'required|numeric',
+            'resolucion_admin'=>'required|string|max:250',
+            'fecha_resolucion_admin'=>'required|date',
+            'noaperturado'=>'required|boolean',
+        ]);
+        
+        if ($validator->fails()) {
+            return response()->json(['status'=>'required','data'=>$validator->errors()],422);
+        }
+        $obj = expedientes::findOrFail($id);
+        $obj->id_direcciones=request('direccion');
+        $obj->concepto=request('concepto');
+        $obj->monto=request('monto');
+        $obj->expediente=request('expediente');
+        $obj->fecha=request('fecha');
+        $obj->uit=request('uit');
+        $obj->importe=request('importe');
+        $obj->resolucion_admin=request('resolucion_admin');
+        $obj->fecha_resolucion_admin=request('fecha_resolucion_admin');
+        $obj->noaperturado=request('noaperturado');
+
+
+        if ($request->hasFile('archivo')){
+            $file = request('archivo')->getClientOriginalName();//archivo recibido
+            $filename = pathinfo($file, PATHINFO_FILENAME);//nombre archivo sin extension
+            $extension = request('archivo')->getClientOriginalExtension();//extensión
+            $archivo= $filename.'_'.time().'.'.$extension;//
+            request('archivo')->storeAs('expedientes/',$archivo,'public');//refiere carpeta publica es el nombre de disco
+            $obj->archivo = $archivo;
+        }
+
+        $obj->save();
+
+        return response()->json(['status'=>'success','data'=>'Registro Actualizado'],200);
     }
 
     /**

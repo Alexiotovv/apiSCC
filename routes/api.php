@@ -10,6 +10,7 @@ use App\Http\Controllers\DireccionesController;
 use App\Http\Controllers\TipoPersonasController;
 use App\Http\Controllers\RegionesController;
 use App\Http\Controllers\GenerateTokensController;
+use App\Http\Controllers\CronogramasController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -42,7 +43,13 @@ Route::middleware('jwt.auth')->get('/users/listar/', [UserController::class,'ind
 Route::middleware('jwt.auth')->post('/expedientes/register/', [ExpedientesController::class,'store']);
 Route::middleware('jwt.auth')->get('/expedientes/listar/{perpage}/{page}', [ExpedientesController::class,'index']);
 Route::middleware('jwt.auth')->get('/expedientes/busqueda/{numero}', [ExpedientesController::class,'show']);
-//Direcciones
+Route::middleware('jwt.auth')->post('/expedientes/update/{id}', [ExpedientesController::class,'update']);
+
+//Cronogramas
+Route::middleware('jwt.auth')->post('/cronogramas/register/', [CronogramasController::class,'store']);
+Route::middleware('jwt.auth')->post('/cronogramas/update/{id}', [CronogramasController::class,'update']);
+
+//Oficinas
 Route::middleware('jwt.auth')->post('/direcciones/register/', [DireccionesController::class,'store']);
 Route::middleware('jwt.auth')->post('/direcciones/update/{id}', [DireccionesController::class,'update']);
 Route::middleware('jwt.auth')->get('/direcciones/listar/', [DireccionesController::class,'index']);

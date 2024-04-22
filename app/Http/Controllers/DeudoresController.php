@@ -119,8 +119,6 @@ class DeudoresController extends Controller
     public function show(Request $request, $tipopersona,$doc)
     {
 
-        
-
         if ($tipopersona==1) {
             $deudor=deudores::where('deudores.dni',$doc)
             ->select('deudores.id','deudores.nombre as nombre','deudores.apellidos as apellidos','deudores.domicilio')
@@ -130,8 +128,11 @@ class DeudoresController extends Controller
             ->select('deudores.id','deudores.nombre_rep as nombre','deudores.apellidos_rep as apellidos','deudores.domicilio')
             ->first();
         }
-
-        return response()->json(['status'=>'success','data'=>$deudor],200);
+        if ($deudor) {
+            return response()->json(['status' => 'success', 'data' => $deudor], 200);
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'No se encontró el DNI o RUC en la base de datos'], 404);
+        }
             
     }
 
