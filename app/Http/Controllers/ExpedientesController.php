@@ -108,6 +108,7 @@ class ExpedientesController extends Controller
         ->leftjoin('deudores','deudores.id','=','expedientes.id_deudores')
         ->leftjoin('direcciones','direcciones.id','=','expedientes.id_direcciones')
         ->select(
+            'expedientes.id',
             'deudores.nombre',
             'deudores.apellidos',
             'direcciones.nombre as dirección',
