@@ -58,9 +58,14 @@ class CronogramasController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(cronogramas $cronogramas)
+    public function show(Request $request,$expediente_id)
     {
-        //
+        $cronograma=cronogramas::find($expediente_id);
+        if ($cronograma) {
+            return response()->json(['status'=>'not found','data'=>$cronograma], 200);
+        }else{
+            return response()->json(['message'=>'No Se encontraron los datos'], 404);
+        }
     }
 
     /**
