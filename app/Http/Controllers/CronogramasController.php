@@ -23,7 +23,7 @@ class CronogramasController extends Controller
 
     public function store(Request $request)
     {
-        try {
+        // try {
 
             $validator=Validator::make($request->all(),[
                 'id_expediente'=> 'required|integer',
@@ -50,9 +50,9 @@ class CronogramasController extends Controller
             }else{
                 return response()->json(['status'=>'error','message'=>'No se puede registrar otro cronograma para un expediente'], 200);
             }
-        } catch (\Throwable $th) {
-            return response()->json(['status'=>'error','data'=>$th], 500);
-        }
+        // } catch (\Throwable $th) {
+        //     return response()->json(['status'=>'error','data'=>$th], 500);
+        // }
     }
 
     /**
