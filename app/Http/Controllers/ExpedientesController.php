@@ -140,7 +140,7 @@ class ExpedientesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,$numero)
+    public function update(Request $request,$expediente_id)
     {
         $validator=Validator::make($request->all(),[
             'direccion'=> 'required|integer',
@@ -158,7 +158,7 @@ class ExpedientesController extends Controller
         if ($validator->fails()) {
             return response()->json(['status'=>'required','data'=>$validator->errors()],422);
         }
-        $obj = expedientes::findOrFail($id);
+        $obj = expedientes::findOrFail($expediente_id);
         $obj->id_direcciones=request('direccion');
         $obj->concepto=request('concepto');
         $obj->monto=request('monto');
