@@ -60,7 +60,8 @@ class CronogramasController extends Controller
      */
     public function show(Request $request,$expediente_id)
     {
-        $cronograma=cronogramas::find($expediente_id);
+        $cronograma=cronogramas::where('id_expedientes',$expediente_id)->first();
+        
         if ($cronograma) {
             return response()->json(['status'=>'success','data'=>$cronograma], 200);
         }else{
