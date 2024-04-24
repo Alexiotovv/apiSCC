@@ -16,6 +16,7 @@ class ExpedientesController extends Controller
         $expedientes=DB::table('expedientes')
         ->leftjoin('deudores','deudores.id','=','expedientes.id_deudores')
         ->leftjoin('direcciones','direcciones.id','=','expedientes.id_direcciones')
+        ->leftjoin('cronogramas','cronogramas.id_expedientes','=','expedientes.id')
         ->select(
             'expedientes.id',
             'deudores.nombre',
@@ -31,7 +32,8 @@ class ExpedientesController extends Controller
             'expedientes.fecha_resolucion_admin',
             'expedientes.noaperturado',
             'expedientes.archivo',
-            'expedientes.created_at')
+            'expedientes.created_at',
+            DB::raw('(IF(cronogramas.id > 0, true, false)) AS tiene_cronograma')    )
         ->paginate($itemsPerPage, ['*'], 'page', $page);
         return response()->json([
             'status'=>'success',
@@ -97,7 +99,7 @@ class ExpedientesController extends Controller
 
         $obj->save();
 
-        return response()->json(['status'=>'success','data'=>'Registro Creado'],200);
+        return response()->json(['status'=>'success','message'=>'Registro Creado'],200);
     }
 
     /**
@@ -105,9 +107,11 @@ class ExpedientesController extends Controller
      */
     public function show($numero)
     {
+        
         $expediente=DB::table('expedientes')
         ->leftjoin('deudores','deudores.id','=','expedientes.id_deudores')
         ->leftjoin('direcciones','direcciones.id','=','expedientes.id_direcciones')
+        ->leftjoin('cronogramas','cronogramas.id_expedientes','=','expedientes.id')
         ->select(
             'expedientes.id',
             'deudores.nombre',
@@ -122,11 +126,17 @@ class ExpedientesController extends Controller
             'expedientes.resolucion_admin',
             'expedientes.fecha_resolucion_admin',
             'expedientes.noaperturado',
-            'expedientes.archivo'
+            'expedientes.archivo',
+            DB::raw('(IF(cronogramas.id > 0, true, false)) AS tiene_cronograma')
             )
         ->whereRaw('LEFT(expedientes.expediente, 8) = ?', [$numero])
-        ->get();
-        return response()->json(['status'=>'success','data'=>$expediente], 200);
+        ->first();
+        if (!$expediente) {
+            return response()->json(['status'=>'error','message'=>'No existe expediente con el numero proporcionado'], 401);
+        }else{
+            return response()->json(['status'=>'success','data'=>$expediente], 200);
+        }
+        
     }
 
     /**
@@ -182,7 +192,7 @@ class ExpedientesController extends Controller
 
         $obj->save();
 
-        return response()->json(['status'=>'success','data'=>'Registro Actualizado'],200);
+        return response()->json(['status'=>'success','message'=>'Registro Actualizado'],200);
     }
 
     /**

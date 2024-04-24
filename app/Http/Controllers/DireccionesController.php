@@ -29,7 +29,7 @@ class DireccionesController extends Controller
         $obj = new direcciones();
         $obj->nombre=request('nombre');
         $obj->save();
-        return response()->json(['status'=>'success','data'=>'Direccion Registrada'],200);
+        return response()->json(['status'=>'success','message'=>'Direccion Registrada'],200);
     }
 
     /**
@@ -56,7 +56,7 @@ class DireccionesController extends Controller
         $obj = direcciones::findOrFail($id);
         $obj->nombre=request('nombre');
         $obj->save();
-        return response()->json(['status'=>'success','data'=>'Direccion Actualizada'],200);
+        return response()->json(['status'=>'success','message'=>'Direccion Actualizada'],200);
     }
 
     /**

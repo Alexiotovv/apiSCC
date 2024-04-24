@@ -109,7 +109,7 @@ class DeudoresController extends Controller
         }
         $obj->save();
 
-        return response()->json(['status'=>'success','data'=>'Registro Creado'],200);
+        return response()->json(['status'=>'success','message'=>'Registro Creado'],200);
 
     }
 
@@ -189,7 +189,7 @@ class DeudoresController extends Controller
         }
         $obj->save();
 
-        return response()->json(['status'=>'success','data'=>'Registro Actualizado'],200);
+        return response()->json(['status'=>'success','message'=>'Registro Actualizado'],200);
     }
 
     /**
