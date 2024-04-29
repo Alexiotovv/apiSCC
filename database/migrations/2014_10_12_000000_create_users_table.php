@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->boolean('role')->default(false);
-            $table->boolean('status')->default(false);
+            $table->boolean('role')->default(false); // 0 = Admin , 1 = Asistente, 2 = Visor
+            $table->boolean('status')->default(false);//Falso=Inhabilitado , True = Habilitado
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

@@ -9,6 +9,13 @@ use Carbon\Carbon;
 
 class PagosController extends Controller
 {
+
+    public function index(Request $request, $cronograma_id){
+
+        $pagos = pagos::where('id_cronograma',$cronograma_id)->get();
+        return response()->json(['status'=>'success','data'=>$pagos], 200);
+    }
+
     public function store(Request $request){
         $validator=Validator::make($request->all(),[
             'id_cronograma'=>'required|integer',

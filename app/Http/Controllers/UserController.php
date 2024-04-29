@@ -21,7 +21,7 @@ class UserController extends Controller
 
 
     public function index(Request $request){
-        $obj=User::all()->select('name','email','role','status');
+        $obj=User::all()->select('id','name','email','role','status');
         return response()->json(['status'=>'success','data'=>$obj]);
     }
 

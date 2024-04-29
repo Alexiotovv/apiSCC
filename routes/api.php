@@ -54,6 +54,7 @@ Route::middleware('jwt.auth')->get('/cronogramas/obtener/{expediente_id}', [Cron
 //Pagos
 Route::middleware('jwt.auth')->post('/pagos/register/', [PagosController::class,'store']);
 Route::middleware('jwt.auth')->post('/pagos/update/{id}', [PagosController::class,'update']);
+Route::middleware('jwt.auth')->get('/pagos/listar/{cronograma_id}', [PagosController::class,'index']);
 
 //Oficinas
 Route::middleware('jwt.auth')->post('/direcciones/register/', [DireccionesController::class,'store']);
