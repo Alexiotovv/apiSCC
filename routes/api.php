@@ -12,6 +12,8 @@ use App\Http\Controllers\RegionesController;
 use App\Http\Controllers\GenerateTokensController;
 use App\Http\Controllers\CronogramasController;
 use App\Http\Controllers\PagosController;
+use App\Http\Controllers\VregistralsController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -37,7 +39,7 @@ Route::middleware('jwt.auth')->post('/profile', function () { return auth()->use
 Route::middleware('jwt.auth')->patch('/user/change_status/{user_id}', [UserController::class,'change_status']);
 Route::middleware('jwt.auth')->post('/usuario/register', [UserController::class,'register']);
 Route::middleware('jwt.auth')->get('/users', [UserController::class,'users']);
-Route::middleware('jwt.auth')->post('/user/update/{id}', [UserController::class,'update']);
+Route::middleware('jwt.auth')->put('/users/update/{id}', [UserController::class,'update']);
 Route::middleware('jwt.auth')->get('/users/listar/', [UserController::class,'index']);
 
 //Expedientes
@@ -45,6 +47,11 @@ Route::middleware('jwt.auth')->post('/expedientes/register/', [ExpedientesContro
 Route::middleware('jwt.auth')->get('/expedientes/listar/{perpage}/{page}', [ExpedientesController::class,'index']);
 Route::middleware('jwt.auth')->get('/expedientes/busqueda/{numero}', [ExpedientesController::class,'show']);
 Route::middleware('jwt.auth')->post('/expedientes/update/{id}', [ExpedientesController::class,'update']);
+
+//Verificacion Registral
+Route::middleware('jwt.auth')->post('/vregistral/register/', [VregistralsController::class,'store']);
+Route::middleware('jwt.auth')->put('/vregistral/update/{vregistral_id}', [VregistralsController::class,'update']);
+Route::middleware('jwt.auth')->get('/vregistral/listar/{expediente_id}', [VregistralsController::class,'index']);
 
 //Cronogramas
 Route::middleware('jwt.auth')->post('/cronogramas/register/', [CronogramasController::class,'store']);

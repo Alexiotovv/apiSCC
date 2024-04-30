@@ -11,34 +11,27 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
 
-    // function create(Request $request){
-    //     return view('usuarios.create');
-    // }
-    // function edit($id){
-    //     $usuario=User::find($id);
-    //     return view('usuarios.edit',['usuario'=>$usuario]);
-    // }
-
 
     public function index(Request $request){
         $obj=User::all()->select('id','name','email','role','status');
         return response()->json(['status'=>'success','data'=>$obj]);
     }
 
-    public function update(Request $request,$id){
+    public function update(Request $request, $id){
         try {
+            
             $usuario=User::findOrFail($id);
-            $usuario->name=request('name');
-            $usuario->email=request('email');
-            $usuario->role=request('role');
-            $usuario->status=request('status');
+            $usuario->name=$request->input('name');
+            $usuario->email=$request->input('email');
+            $usuario->role=$request->input('role');
+            $usuario->status=$request->input('status');
             // if (request('contra')!='') {
             //     $usuario->password=request('password');
             // }
             $usuario->save();
             return response()->json(['status'=>'success','data'=>'Registro Actualizado']);
         } catch (\Throwable $th) {
-            return redirect()->route('users')->with('error','Ocurrió un error durante el registro');
+            return response()->json(['status'=>'error','message'=>'Ocurrió un erro durante la actualización']);
         }
 
     }

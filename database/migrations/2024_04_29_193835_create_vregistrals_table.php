@@ -11,16 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('verificacion_registrals', function (Blueprint $table) {
+        Schema::create('vregistrals', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_expedientes')->unsigned();
             $table->foreign('id_expedientes')->references('id')->on('expedientes')->onDelete('cascade');
-            $table->bigInteger('id_vrestados')->unsigned();
-            $table->foreign('id_vrestados')->references('id')->on('vr_estados')->onDelete('cascade');
-            $table->bigInteger('id_vrobservaciones')->unsigned();
-            $table->foreign('id_vrobservaciones')->references('id')->on('vr_observaciones')->onDelete('cascade');
-            $table->tinyInteger('prescrito');
-            
+            $table->string('prescrito', 5)->default('NO');//SI //NO 
+            $table->string('estado', 250)->nullable()->default('');
+            $table->string('observaciones', 250)->nullable()->default('');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('verificacion_registrals');
+        Schema::dropIfExists('vregistrals');
     }
 };
