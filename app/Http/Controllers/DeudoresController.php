@@ -155,34 +155,51 @@ class DeudoresController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validator=Validator::make($request->all(),[
-            'tipopersona' => 'required|integer|',
-            'distrito'=> 'required|integer',
-            'ruc'=>'required|string|size:11',
-            'dni'=>'required_if:tipopersona,1|string|size:8',
-            'nombre'=>'required_if:tipopersona,1||string|max:250',
-            'apellidos'=>'required_if:tipopersona,1||string|max:250',
-            'domicilio'=>'required|string|max:250',
-            'nombre_rep'=>'required_if:tipopersona,2|',
-            'apellidos_rep'=>'required_if:tipopersona,2|',
-            'dni_rep'=>'required_if:tipopersona,2|',
-            'razon'=>'required_if:tipopersona,2|',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['status'=>'required','data'=>$validator->errors()],422);
-        }
-
+        
         $obj=deudores::findOrFail($id);
 
         $obj->id_tipopersonas=request('tipopersona');
         $obj->id_distritos=request('distrito');
+
         if (request('tipopersona')=='1') {
+            $validator=Validator::make($request->all(),[
+                'dni'=>'required_if:tipopersona,1|string|size:8|',
+                'nombre'=>'required_if:tipopersona,1||string|max:250',
+                'apellidos'=>'required_if:tipopersona,1|string|max:250',
+                'domicilio'=>'required|string|max:250',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['status'=>'required','data'=>$validator->errors()],422);
+            }
             $obj->dni=request('dni');
             $obj->nombre=request('nombre');
             $obj->apellidos=request('apellidos');
             $obj->domicilio=request('domicilio');
+            $obj->ruc='';
+            $obj->razon='';
+            $obj->nombre_rep='';
+            $obj->apellidos_rep='';
+            $obj->dni_rep='';
+
         }else{
+            $validator=Validator::make($request->all(),[
+                'ruc'=>'required|string|size:11',
+                'razon'=>'required_if:tipopersona,2|',
+                'nombre_rep'=>'required_if:tipopersona,2|',
+                'apellidos_rep'=>'required_if:tipopersona,2|',
+                'dni_rep'=>'required_if:tipopersona,2|',
+                'domicilio'=>'required|string|max:250',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['status'=>'required','data'=>$validator->errors()],422);
+            }
+
+            $obj->dni='';
+            $obj->nombre='';
+            $obj->apellidos='';
+            $obj->domicilio=request('domicilio');
             $obj->ruc=request('ruc');
             $obj->razon=request('razon');
             $obj->nombre_rep=request('nombre_rep');
