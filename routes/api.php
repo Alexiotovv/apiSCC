@@ -46,7 +46,7 @@ Route::middleware('jwt.auth')->get('/users/listar/', [UserController::class,'ind
 Route::middleware('jwt.auth')->post('/expedientes/register/', [ExpedientesController::class,'store']);
 Route::middleware('jwt.auth')->get('/expedientes/listar/{perpage}/{page}', [ExpedientesController::class,'index']);
 Route::middleware('jwt.auth')->get('/expedientes/busqueda/{numero}', [ExpedientesController::class,'show']);
-Route::middleware('jwt.auth')->post('/expedientes/update/{id}', [ExpedientesController::class,'update']);
+Route::middleware('jwt.auth')->put('/expedientes/update/{id}', [ExpedientesController::class,'update']);
 
 //Verificacion Registral
 Route::middleware('jwt.auth')->post('/vregistral/register/', [VregistralsController::class,'store']);
@@ -65,12 +65,12 @@ Route::middleware('jwt.auth')->get('/pagos/listar/{cronograma_id}', [PagosContro
 
 //Oficinas
 Route::middleware('jwt.auth')->post('/direcciones/register/', [DireccionesController::class,'store']);
-Route::middleware('jwt.auth')->post('/direcciones/update/{id}', [DireccionesController::class,'update']);
+Route::middleware('jwt.auth')->put('/direcciones/update/{id}', [DireccionesController::class,'update']);
 Route::middleware('jwt.auth')->get('/direcciones/listar/', [DireccionesController::class,'index']);
 
-//deudor 
+//Deudor 
 Route::middleware('jwt.auth')->post('/deudor/register/', [DeudoresController::class,'store']);
-Route::middleware('jwt.auth')->post('/deudor/update/{id}', [DeudoresController::class,'update']);
+Route::middleware('jwt.auth')->put('/deudor/update/{id}', [DeudoresController::class,'update']);
 Route::middleware('jwt.auth')->get('/deudor/listar/{perpage}/{page}', [DeudoresController::class,'index']);
 //Búsqueda de Deudores
 Route::middleware('jwt.auth')->get('/deudor/busqueda/{tipopersona}/{doc}', [DeudoresController::class,'show']);
