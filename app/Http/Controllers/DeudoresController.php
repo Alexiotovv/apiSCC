@@ -22,7 +22,9 @@ class DeudoresController extends Controller
         ->select(
             'deudores.id as id_deudor',
             'tipo_personas.nombre as tipo_persona',
+            'provincias.id_provincia as id_provincia',
             'provincias.nombre_provincia as provincia',
+            'distritos.id_distrito as id_distrito',
             'distritos.nombre_distrito as distrito',
             'deudores.dni',
             'deudores.nombre',
