@@ -80,10 +80,10 @@ class CronogramasController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $cronograma_id)
     {
         try {
-
+            
             $validator=Validator::make($request->all(),[
                 'numero_cuotas'=>'required|integer',
                 'fecha_inicial_pago'=>'required|date',
@@ -94,7 +94,7 @@ class CronogramasController extends Controller
                 return response()->json(['status'=>'required','message'=>$validator->errors()],422);
             }
 
-            $cronograma = cronogramas::findOrFail($id);
+            $cronograma = cronogramas::findOrFail($cronograma_id);
 
             $cronograma->id_user=auth()->user()->id; 
             $cronograma->numero_cuotas=request('numero_cuotas');

@@ -33,7 +33,7 @@ class ExpedientesController extends Controller
             'expedientes.noaperturado',
             'expedientes.archivo',
             'expedientes.created_at',
-            DB::raw('(IF(cronogramas.id > 0, true, false)) AS tiene_cronograma')    )
+            DB::raw('(IF(cronogramas.id > 0, true, false)) AS tiene_cronograma'))
         ->paginate($itemsPerPage, ['*'], 'page', $page);
         return response()->json([
             'status'=>'success',

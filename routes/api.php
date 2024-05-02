@@ -55,7 +55,7 @@ Route::middleware('jwt.auth')->get('/vregistral/listar/{expediente_id}', [Vregis
 
 //Cronogramas
 Route::middleware('jwt.auth')->post('/cronogramas/register/', [CronogramasController::class,'store']);
-Route::middleware('jwt.auth')->post('/cronogramas/update/{id}', [CronogramasController::class,'update']);
+Route::middleware('jwt.auth')->put('/cronogramas/update/{cronograma_id}', [CronogramasController::class,'update']);
 Route::middleware('jwt.auth')->get('/cronogramas/obtener/{expediente_id}', [CronogramasController::class,'show']);
 
 //Pagos
