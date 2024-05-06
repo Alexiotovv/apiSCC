@@ -21,6 +21,7 @@ class ExpedientesController extends Controller
             'expedientes.id',
             'deudores.nombre',
             'deudores.apellidos',
+            'direcciones.id as id_direccion',
             'direcciones.nombre as direccion',
             'expedientes.concepto',
             'expedientes.monto',
