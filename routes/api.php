@@ -46,7 +46,7 @@ Route::middleware('jwt.auth')->get('/users/listar/', [UserController::class,'ind
 Route::middleware('jwt.auth')->post('/expedientes/register/', [ExpedientesController::class,'store']);
 Route::middleware('jwt.auth')->get('/expedientes/listar/{perpage}/{page}', [ExpedientesController::class,'index']);
 Route::middleware('jwt.auth')->get('/expedientes/busqueda/{numero}', [ExpedientesController::class,'show']);
-Route::middleware('jwt.auth')->put('/expedientes/update/{id}', [ExpedientesController::class,'update']);
+Route::middleware('jwt.auth')->post('/expedientes/update/{id}', [ExpedientesController::class,'update']);
 
 //Verificacion Registral
 Route::middleware('jwt.auth')->post('/vregistral/register/', [VregistralsController::class,'store']);
