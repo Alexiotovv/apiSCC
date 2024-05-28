@@ -8,9 +8,30 @@ use Validator;
 use DB;
 class ExpedientesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
+    public function carta($id_expediente){
+        $data= DB::table('expedientes')
+        ->leftjoin('deudores','expedientes.id_deudores','=','deudores.id')
+        ->leftjoin('distritos','distritos.id','=','deudores.id_distritos')
+        ->leftjoin('provincias','provincias.id','=','distritos.id_provincias')
+        ->leftjoin('cronogramas','expedientes.id','=','cronogramas.id_expedientes')
+        ->leftjoin('tipo_personas','tipo_personas.id','=','deudores.id_tipopersonas')
+        ->where('expedientes.id','=',$id_expediente)
+        ->select('deudores.razon',
+        'deudores.nombre',
+        'deudores.apellidos',
+        'deudores.domicilio',
+        'deudores.nombre',
+        'distritos.nombre_distrito',
+        'provincias.nombre_provincia',
+        'cronogramas.estado')
+        ->get();
+
+        return response()->json($data, 200);
+
+    }
+
+
     public function index(int $itemsPerPage = 1, int $page =1)
     {
         $expedientes=DB::table('expedientes')
