@@ -13,7 +13,9 @@ class ExpedientesController extends Controller
         
         $deudor_natural=DB::table('deudores')
         ->leftjoin('expedientes','expedientes.id_deudores','=','deudores.id')
+        ->leftjoin('cronogramas','cronogramas.id_expedientes','=','expedientes.id')
         ->where('deudores.dni','=',$doc_identidad)
+        ->select('deudores.*','expedientes.*','cronogramas.estado')
         ->get();
         if ($deudor_natural->isNotEmpty()) {
             return response()->json(['data'=>$deudor_natural,'status'=>'success'], 200);
@@ -21,8 +23,9 @@ class ExpedientesController extends Controller
 
         $deudor_juridico=DB::table('deudores')
         ->leftjoin('expedientes','expedientes.id_deudores','=','deudores.id')
+        ->leftjoin('cronogramas','cronogramas.id_expedientes','=','expedientes.id')
         ->where('deudores.ruc','=',$doc_identidad)
-        ->select('deudores.*','expedientes.*')
+        ->select('deudores.*','expedientes.*','cronogramas.estado')
         ->get();
 
         if ($deudor_juridico->isNotEmpty()) {
@@ -40,7 +43,9 @@ class ExpedientesController extends Controller
         ->leftjoin('cronogramas','expedientes.id','=','cronogramas.id_expedientes')
         ->leftjoin('tipo_personas','tipo_personas.id','=','deudores.id_tipopersonas')
         ->where('expedientes.id','=',$id_expediente)
-        ->select('deudores.razon',
+        ->select(
+        'deudores.dni',
+        'deudores.ruc',
         'deudores.nombre',
         'deudores.apellidos',
         'deudores.domicilio',
