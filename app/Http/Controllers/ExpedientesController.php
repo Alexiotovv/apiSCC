@@ -9,6 +9,29 @@ use DB;
 class ExpedientesController extends Controller
 {
     
+    public function carta_expedientes($doc_identidad){
+        
+        $deudor_natural=DB::table('deudores')
+        ->leftjoin('expedientes','expedientes.id_deudores','=','deudores.id')
+        ->where('deudores.dni','=',$doc_identidad)
+        ->get();
+        if ($deudor_natural->isNotEmpty()) {
+            return response()->json(['data'=>$deudor_natural,'status'=>'success'], 200);
+        }
+
+        $deudor_juridico=DB::table('deudores')
+        ->leftjoin('expedientes','expedientes.id_deudores','=','deudores.id')
+        ->where('deudores.ruc','=',$doc_identidad)
+        ->select('deudores.*','expedientes.*')
+        ->get();
+
+        if ($deudor_juridico->isNotEmpty()) {
+            return response()->json(['data'=>$deudor_juridico,'status'=>'success'], 200);
+        }
+        return response()->json(['message'=>'No existe registros con documento proporcionado','status'=>'success'], 200);
+
+    }
+
     public function carta($id_expediente){
         $data= DB::table('expedientes')
         ->leftjoin('deudores','expedientes.id_deudores','=','deudores.id')
@@ -27,7 +50,7 @@ class ExpedientesController extends Controller
         'cronogramas.estado')
         ->get();
 
-        return response()->json($data, 200);
+        return response()->json(['data'=>$data,'status'=>'success'], 200);
 
     }
 

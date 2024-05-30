@@ -77,6 +77,8 @@ Route::middleware('jwt.auth')->get('/deudor/busqueda/{tipopersona}/{doc}', [Deud
 
 //No adeudo
 Route::middleware('jwt.auth')->get('/carta/{id_expediente}', [ExpedientesController::class,'carta']);
+Route::middleware('jwt.auth')->get('/carta/buscar/expedientes/deudor/{doc_identidad}', [ExpedientesController::class,'carta_expedientes']);
+
 
 //TipoPersonas
 Route::get('/tipo/personas/', [TipoPersonasController::class,'index']);
