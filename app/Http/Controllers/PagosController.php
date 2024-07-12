@@ -78,7 +78,7 @@ class PagosController extends Controller
         $pago->save();
         
         $id_cronograma = request('id_cronograma');
-        $estado_cronograma = $this->caluclarEstadoCronograma($id_cronograma); // Asegúrate de llamar correctamente a la función
+        $estado_cronograma = $this->calcularEstadoCronograma($id_cronograma); // Asegúrate de llamar correctamente a la función
         
         if ($estado_cronograma) {
             $cronograma = cronogramas::findOrFail($id_cronograma);
